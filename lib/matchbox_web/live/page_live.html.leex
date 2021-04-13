@@ -17,6 +17,15 @@
 </section>
 
 <section class="row">
+  <%= live_component(
+                  @socket,
+                  MatchboxWeb.DemoComponent,
+                  messages: ["test", "test2", "test3", Application.get_env(:matchbox, :riot_key)]
+                )
+            %>
+</section>
+
+<section class="row">
   <article class="column">
     <h2>Resources</h2>
     <ul>
