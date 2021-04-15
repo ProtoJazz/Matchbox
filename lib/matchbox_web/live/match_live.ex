@@ -40,6 +40,8 @@ defmodule MatchboxWeb.MatchLive do
   defp assign_match(%{assigns: %{match_id: match_id}} = socket) do
     match = TournamentService.get_match_server(match_id)
     state = Matchbox.Match.state(match)
+    IO.puts("NEW STATE")
+    IO.inspect(state)
     socket
     |> assign(
       match: match,
