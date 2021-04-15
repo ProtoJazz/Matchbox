@@ -12,15 +12,15 @@
   transition: opacity 1s ease-out;
 }
 
-.phx-disconnected{
+.phx-disconnected {
   cursor: wait;
 }
-.phx-disconnected *{
+.phx-disconnected * {
   pointer-events: none;
 }
 
 .phx-modal {
-  opacity: 1!important;
+  opacity: 1 !important;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -28,8 +28,8 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .phx-modal-content {
@@ -53,7 +53,6 @@
   text-decoration: none;
   cursor: pointer;
 }
-
 
 /* Alerts and form errors */
 .alert {
@@ -87,4 +86,59 @@
   color: #a94442;
   display: block;
   margin: -1rem 0 2rem;
+}
+
+html,
+body {
+  background-color: rgb(1, 1, 30);
+}
+
+.champ_portrait {
+  height: 214px;
+}
+
+.champ_divider {
+  display: flex;
+  max-width: 100%;
+}
+
+.champ_select_backer {
+  background-color: rgb(23, 23, 46);
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.banned {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.red {
+  background-color: red;
+  height: 50px;
+}
+
+.blue {
+  background-color: blue;
+  height: 50px;
+}
+
+.title_team_name {
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 13px;
+}
+
+.navbar {
+  background-color: rgb(23, 23, 46);
+}
+
+.navbar * {
+  color: white;
+}
+
+.phx-connected {
+  padding-top: 20px;
 }

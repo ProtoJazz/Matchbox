@@ -48,7 +48,8 @@ defmodule Matchbox.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:faker, "~> 0.16.0"},
-      {:uuid, "~> 1.1"}
+      {:uuid, "~> 1.1"},
+      {:httpoison, "~> 1.8"}
     ]
   end
 

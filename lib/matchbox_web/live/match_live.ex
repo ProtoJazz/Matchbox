@@ -2,15 +2,18 @@ defmodule MatchboxWeb.MatchLive do
   use MatchboxWeb, :live_view
 
   alias Matchbox.TournamentService
-
+  @iconRoot "http://ddragon.leagueoflegends.com/cdn/11.8.1/img/champion/"
+  @splashRoot "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/"
   @impl true
   def mount(%{"id" => match_id}, _session, socket) do
-
     if connected?(socket), do: subscribe(match_id)
-    socket = socket
-    |> assign(match_id: match_id)
-    |> assign_match()
-    #{:noreply, socket}
+
+    socket =
+      socket
+      |> assign(match_id: match_id)
+      |> assign_match()
+
+    # {:noreply, socket}
     {:ok, socket}
   end
 
@@ -21,7 +24,6 @@ defmodule MatchboxWeb.MatchLive do
 
     {:noreply, socket}
   end
-
 
   def subscribe(match_id) do
     Phoenix.PubSub.subscribe(Matchbox.PubSub, match_id)
@@ -40,8 +42,7 @@ defmodule MatchboxWeb.MatchLive do
   defp assign_match(%{assigns: %{match_id: match_id}} = socket) do
     match = TournamentService.get_match_server(match_id)
     state = Matchbox.Match.state(match)
-    IO.puts("NEW STATE")
-    IO.inspect(state)
+
     socket
     |> assign(
       match: match,
@@ -49,17 +50,103 @@ defmodule MatchboxWeb.MatchLive do
     )
   end
 
+  def imgUrl(champion) do
+    "#{@iconRoot}#{champion.icon}"
+  end
+
+  def splashUrl(champion, champion_data) do
+    champion =
+      Enum.find(champion_data, nil, fn c ->
+        c.name == champion
+      end)
+
+    "#{@splashRoot}#{champion.splash}"
+  end
+
   def render(assigns) do
     ~L"""
       <div>
-        <h3>some champions or someshit here</h3>
-        <button phx-click="select-champion" phx-value-champion="DrMundo">Pick Mundo</button>
+        <div class="tile is-ancestor">
+          <div class="tile red">
+            <div class="title_team_name">
+              ROD
+            </div>
+          </div>
+          <div class="tile blue">
+            <div class="title_team_name">
+              BLOW
+            </div>
+          </div>
+        </div>
 
-        <ul>
-         <%= for pick <- @state.red_team_picks do %>
-            <li><%= pick %></li>
-         <% end %>
-        </ul>
+        <div class="champ_select_backer">
+          <div class="tile is-ancestor">
+            <%= for index <- 0..@match.team_size - 1 do %>
+              <% selection = Enum.at(@state.red_team_picks, index) %>
+              <%= if is_nil(selection) do %>
+                <div class="tile no_champ champ_portrait">
+                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                </div>
+              <% else %>
+                <div class="tile champ_portrait">
+                  <img class="tile" src = "<%=splashUrl(selection, @match.champion_data)%>"/>
+                </div>
+              <% end %>
+            <% end %>
+
+            <div class="tile champ_divider" ></div>
+
+            <%= for index <- Enum.reverse(0..@match.team_size - 1) do %>
+              <% selection = Enum.at(@state.blue_team_picks, index) %>
+              <%= if is_nil(selection) do %>
+                <div class="tile no_champ champ_portrait">
+                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                </div>
+              <% else %>
+                <div class="tile champ_portrait">
+                  <img class="tile" src = "<%=splashUrl(selection, @match.champion_data)%>"/>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="tile is-ancestor">
+            <%= for index <- 0..@match.bans - 1 do %>
+              <% selection = Enum.at(@state.red_team_bans, index) %>
+              <%= if is_nil(selection) do %>
+                <div class="tile no_champ champ_portrait">
+                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                </div>
+              <% else %>
+                <div class="tile champ_portrait banned">
+                  <img class="tile" src = "<%=splashUrl(selection, @match.champion_data)%>"/>
+                </div>
+              <% end %>
+            <% end %>
+
+            <div class="tile champ_divider"></div>
+
+            <%= for index <- Enum.reverse(0..@match.bans - 1) do %>
+              <% selection = Enum.at(@state.blue_team_bans, index) %>
+              <%= if is_nil(selection) do %>
+                <div class="tile no_champ champ_portrait">
+                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                </div>
+              <% else %>
+                <div class="tile champ_portrait banned">
+                  <img class="tile" src = "<%=splashUrl(selection, @match.champion_data)%>"/>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div class="columns is-multiline is-gapless">
+          <%= for champion <- @match.champion_data do %>
+            <div class="column is-1">
+              <img  phx-click="select-champion" phx-value-champion="<%= champion.name %>" src="<%=imgUrl(champion)%>"/>
+            </div>
+          <% end %>
+        </div>
       </div>
     """
   end
