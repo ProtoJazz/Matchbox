@@ -19,6 +19,7 @@ defmodule MatchboxWeb.Router do
 
     live "/", LandingPageLive, :index
     live "/tournament/:id", TournamentLive, :show
+    live "/match/:id", MatchLive, :show
   end
 
   # Other scopes may use custom stacks.
