@@ -148,3 +148,25 @@ body {
 .no_champ_cover {
   object-fit: fill;
 }
+
+.banned_overlay {
+  margin-top: -84px;
+  display: block;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+  opacity: 60%;
+}
+
+.champ_tile {
+  max-width: 80px;
+  min-width: 80px;
+  max-height: 80px;
+  min-height: 80px;
+}
+
+.ban_pick_divider {
+  height: 5px;
+  margin-bottom: 18px;
+  margin-top: 6px;
+  background: black;
+}
