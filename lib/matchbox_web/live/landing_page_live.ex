@@ -10,7 +10,7 @@ defmodule MatchboxWeb.LandingPageLive do
 
 
   def handle_event("create_tournament", _, socket) do
-    name = Faker.Cannabis.strain()
+    name = "#{Faker.Company.name()} tournament to #{Faker.Company.bs()}"
 
     {:ok, tournament} = TournamentService.create_tournament(%{name: name})
     IO.inspect(tournament)
