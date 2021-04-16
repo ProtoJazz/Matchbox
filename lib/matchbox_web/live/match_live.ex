@@ -72,7 +72,10 @@ defmodule MatchboxWeb.MatchLive do
     ~L"""
       <div>
       <button phx-click="generate_code" type="button">Generate Code</button>
+      <br/>
+      <br/>
         <%= if !is_nil(@code) do %>
+        <br/>
         <div class="card">
 
         <div class="card-content">
@@ -83,6 +86,7 @@ defmodule MatchboxWeb.MatchLive do
           </div>
         </div>
       </div>
+      <br/>
         <% end %>
 
         <div class="tile is-ancestor">

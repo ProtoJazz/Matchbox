@@ -37,6 +37,10 @@ defmodule Matchbox.TournamentService do
     Tournament |> preload([teams: :players]) |> Repo.get!(id)
   end
 
+  def get_tournaments() do
+    Tournament |> Repo.all()
+  end
+
   def add_team(tournament, team_name) do
     %Team{}
     |> Team.changeset(tournament, %{name: team_name})

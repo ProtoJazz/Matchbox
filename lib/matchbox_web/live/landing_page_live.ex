@@ -5,7 +5,8 @@ defmodule MatchboxWeb.LandingPageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, socket}
+    tournaments = TournamentService.get_tournaments()
+    {:ok, assign(socket, tournaments: tournaments)}
   end
 
 
@@ -23,6 +24,12 @@ defmodule MatchboxWeb.LandingPageLive do
     ~L"""
       <div>
         <button phx-click="create_tournament">New tournament</button>
+
+        <%= for tournament <- @tournaments do %>
+           <br/>
+          <a href="/tournament/<%= tournament.id %>"><%= tournament.name %></a>
+        <% end %>
+
       </div>
     """
   end
