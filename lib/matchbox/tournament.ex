@@ -3,10 +3,10 @@ defmodule Matchbox.Tournament do
   import Ecto.Changeset
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
-
+  @foreign_key_type :binary_id
   schema "tournaments" do
     field :name, :string
-
+    has_many :teams, Matchbox.Team
     timestamps()
   end
 
@@ -16,4 +16,5 @@ defmodule Matchbox.Tournament do
     |> cast(attrs, [:name])
     |> validate_required([:name])
   end
+
 end
