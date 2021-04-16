@@ -99,7 +99,7 @@ body {
 
 .champ_divider {
   display: flex;
-  max-width: 100%;
+  max-width: 10px;
 }
 
 .champ_select_backer {
@@ -131,14 +131,42 @@ body {
   margin-top: 13px;
 }
 
-.navbar {
+.navbar,
+.card_container_backer {
   background-color: rgb(23, 23, 46);
 }
 
-.navbar * {
+.navbar *,
+.card_container_backer * {
   color: white;
 }
 
 .phx-connected {
   padding-top: 20px;
+}
+
+.no_champ_cover {
+  object-fit: fill;
+}
+
+.banned_overlay {
+  margin-top: -84px;
+  display: block;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+  opacity: 60%;
+}
+
+.champ_tile {
+  max-width: 80px;
+  min-width: 80px;
+  max-height: 80px;
+  min-height: 80px;
+}
+
+.ban_pick_divider {
+  height: 5px;
+  margin-bottom: 18px;
+  margin-top: 6px;
+  background: black;
 }

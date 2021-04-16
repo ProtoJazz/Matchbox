@@ -80,12 +80,12 @@ defmodule MatchboxWeb.MatchLive do
         </div>
 
         <div class="champ_select_backer">
-          <div class="tile is-ancestor">
+          <div class="tile is-ancestor" style="margin-bottom: 0px;">
             <%= for index <- 0..@match.team_size - 1 do %>
               <% selection = Enum.at(@state.red_team_picks, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/29.png"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait">
@@ -100,7 +100,7 @@ defmodule MatchboxWeb.MatchLive do
               <% selection = Enum.at(@state.blue_team_picks, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/29.png"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait">
@@ -110,12 +110,14 @@ defmodule MatchboxWeb.MatchLive do
             <% end %>
           </div>
 
+          <div class="ban_pick_divider"></div>
+
           <div class="tile is-ancestor">
             <%= for index <- 0..@match.bans - 1 do %>
               <% selection = Enum.at(@state.red_team_bans, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFjrqXeOq76adlGPApEHPTS5lKYTV5IZpmuQ&usqp=CAU"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait banned">
@@ -130,7 +132,7 @@ defmodule MatchboxWeb.MatchLive do
               <% selection = Enum.at(@state.blue_team_bans, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFjrqXeOq76adlGPApEHPTS5lKYTV5IZpmuQ&usqp=CAU"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait banned">
@@ -140,12 +142,24 @@ defmodule MatchboxWeb.MatchLive do
             <% end %>
           </div>
         </div>
-        <div class="columns is-multiline is-gapless">
-          <%= for champion <- @match.champion_data do %>
-            <div class="column is-1">
-              <img  phx-click="select-champion" phx-value-champion="<%= champion.name %>" src="<%=imgUrl(champion)%>"/>
-            </div>
-          <% end %>
+
+        <div class="champ_select_backer">
+          <div class="columns is-multiline is-gapless">
+            <% sorted_champion_data = Enum.sort(@match.champion_data, &(&1.name <= &2.name))%>
+            <%= for champion <- sorted_champion_data do %>
+              <div class="column is-1">
+                <%= if Enum.member?(@state.blue_team_bans, champion.name) ||
+                    Enum.member?(@state.red_team_bans, champion.name) ||
+                    Enum.member?(@state.blue_team_picks, champion.name) ||
+                    Enum.member?(@state.red_team_picks, champion.name) do %>
+                  <img class="champ_tile" src="<%=imgUrl(champion)%>"/>
+                  <img class="banned_overlay champ_tile" src="https://pbs.twimg.com/profile_images/1084288705811095552/qGmxxOqd_400x400.jpg"/>
+                <% else %>
+                  <img class="champ_tile" phx-click="select-champion" phx-value-champion="<%= champion.name %>" src="<%=imgUrl(champion)%>"/>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
     """
