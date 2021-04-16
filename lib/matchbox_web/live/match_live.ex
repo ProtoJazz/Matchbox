@@ -10,7 +10,7 @@ defmodule MatchboxWeb.MatchLive do
 
     socket =
       socket
-      |> assign(match_id: match_id)
+      |> assign(match_id: match_id, code: nil)
       |> assign_match()
 
     # {:noreply, socket}
@@ -23,6 +23,11 @@ defmodule MatchboxWeb.MatchLive do
       |> pick_champ(champion)
 
     {:noreply, socket}
+  end
+
+  def handle_event("generate_code", _, %{assigns: %{match: match}} = socket) do
+      code = TournamentService.get_tournament_code(match.red_team, match.blue_team, match.team_size, match.riot_tournament_id)
+      {:noreply, assign(socket, code: code)}
   end
 
   def subscribe(match_id) do
@@ -66,6 +71,20 @@ defmodule MatchboxWeb.MatchLive do
   def render(assigns) do
     ~L"""
       <div>
+      <button phx-click="generate_code" type="button">Generate Code</button>
+        <%= if !is_nil(@code) do %>
+        <div class="card">
+
+        <div class="card-content">
+
+            <div class="media-content">
+              <p class="title is-4">Code: <%= @code %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+        <% end %>
+
         <div class="tile is-ancestor">
           <div class="tile red">
             <div class="title_team_name">
@@ -148,6 +167,8 @@ defmodule MatchboxWeb.MatchLive do
           <% end %>
         </div>
       </div>
+
+
     """
   end
 end

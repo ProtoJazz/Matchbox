@@ -31,5 +31,6 @@ config :phoenix, :json_library, Jason
 import_config "#{Mix.env()}.exs"
 
 config :matchbox, [
-  riot_key: System.get_env("RIOT_KEY")
+  riot_key: System.get_env("RIOT_KEY"),
+  provider_id: System.get_env("PROVIDER_ID")
 ]

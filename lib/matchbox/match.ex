@@ -6,6 +6,7 @@ defmodule Matchbox.Match do
             red_team: %{name: "Red Team", players: []},
             blue_team: %{name: "Blue Team", players: []},
             tournament_name: "Single Match",
+            riot_tournament_id: 0,
             bans: 5,
             team_size: 5,
             champion_data: []
@@ -17,7 +18,7 @@ defmodule Matchbox.Match do
   def start_link(options) do
     GenServer.start_link(
       __MODULE__,
-      initalize_match(options[:tournament_name], options[:champion_data], options[:red_team], options[:blue_team]),
+      initalize_match(options[:tournament_name], options[:champion_data], options[:red_team], options[:blue_team], options[:riot_tournament_id]),
       options
     )
   end
@@ -26,13 +27,13 @@ defmodule Matchbox.Match do
     {:ok, match, @timeout}
   end
 
-  defp initalize_match(tournament_name, champion_data, red_team, blue_team) do
+  defp initalize_match(tournament_name, champion_data, red_team, blue_team, riot_tournament_id) do
     %Match{}
-    |> setup_options(tournament_name, champion_data, red_team, blue_team)
+    |> setup_options(tournament_name, champion_data, red_team, blue_team, riot_tournament_id)
   end
 
-  defp setup_options(match, tournament_name, champion_data, red_team, blue_team) do
-    %Match{match | tournament_name: tournament_name, champion_data: champion_data, red_team: red_team, blue_team: blue_team}
+  defp setup_options(match, tournament_name, champion_data, red_team, blue_team, riot_tournament_id) do
+    %Match{match | tournament_name: tournament_name, champion_data: champion_data, red_team: red_team, blue_team: blue_team, riot_tournament_id: riot_tournament_id}
   end
 
   def state(%Match{state: state}) do

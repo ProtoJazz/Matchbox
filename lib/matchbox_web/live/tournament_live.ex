@@ -18,7 +18,7 @@ defmodule MatchboxWeb.TournamentLive do
 
     red_team = Enum.find(tournament.teams, nil, fn team -> team.id == red_parse end)
     blue_team = Enum.find(tournament.teams, nil, fn team -> team.id == blue_parse end)
-    TournamentService.start_match_server(match_id, red_team, blue_team)
+    TournamentService.start_match_server(match_id, red_team, blue_team, tournament.riot_tournament_id)
 
     {:noreply,
      push_redirect(

@@ -6,6 +6,7 @@ defmodule Matchbox.Tournament do
   @foreign_key_type :binary_id
   schema "tournaments" do
     field :name, :string
+    field :riot_tournament_id, :string
     has_many :teams, Matchbox.Team
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule Matchbox.Tournament do
   @doc false
   def changeset(tournament, attrs) do
     tournament
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :riot_tournament_id])
     |> validate_required([:name])
   end
 
