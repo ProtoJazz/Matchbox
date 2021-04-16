@@ -1,7 +1,7 @@
 defmodule Matchbox.TournamentService do
   alias Matchbox.Repo
-  alias Matchbox.Tournament
-
+  alias Matchbox.{Tournament, Team}
+  import Ecto.Query
   def create_tournament(attrs \\ %{}) do
     %Tournament{}
     |> Tournament.changeset(attrs)
@@ -9,9 +9,16 @@ defmodule Matchbox.TournamentService do
   end
 
   def get_tournament(id) do
-    Repo.get!(Tournament, id)
+    Tournament |> preload([teams: :players]) |> Repo.get!(id)
   end
 
+  def add_team(tournament, team_name) do
+    %Team{}
+    |> Team.changeset(tournament, %{name: team_name})
+    |> Repo.insert()
+  end
+
+  @spec start_match_server(any) :: {:ok, pid}
   def start_match_server(match_id) do
     response =
       HTTPoison.get!("http://ddragon.leagueoflegends.com/cdn/11.8.1/data/en_US/champion.json")
