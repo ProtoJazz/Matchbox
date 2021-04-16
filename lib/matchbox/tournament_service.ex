@@ -24,8 +24,8 @@ defmodule Matchbox.TournamentService do
     |> Repo.insert()
   end
 
-  @spec start_match_server(any) :: {:ok, pid}
-  def start_match_server(match_id) do
+
+  def start_match_server(match_id, red_team, blue_team) do
     response =
       HTTPoison.get!("http://ddragon.leagueoflegends.com/cdn/11.8.1/data/en_US/champion.json")
 
@@ -46,7 +46,7 @@ defmodule Matchbox.TournamentService do
       DynamicSupervisor.start_child(
         Matchbox.MatchSupervisor,
         {Matchbox.Match,
-         name: via_tuple(match_id), tournament_name: "Single Match", champion_data: newValue}
+         name: via_tuple(match_id), tournament_name: "Single Match", champion_data: newValue, red_team: red_team, blue_team: blue_team}
       )
   end
 

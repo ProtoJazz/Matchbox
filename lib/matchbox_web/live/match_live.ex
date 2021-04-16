@@ -69,12 +69,12 @@ defmodule MatchboxWeb.MatchLive do
         <div class="tile is-ancestor">
           <div class="tile red">
             <div class="title_team_name">
-              ROD
+              <%= @match.red_name %>
             </div>
           </div>
           <div class="tile blue">
             <div class="title_team_name">
-              BLOW
+            <%= @match.blue_name %>
             </div>
           </div>
         </div>

@@ -17,7 +17,7 @@ defmodule Matchbox.Match do
   def start_link(options) do
     GenServer.start_link(
       __MODULE__,
-      initalize_match(options[:tournament_name], options[:champion_data]),
+      initalize_match(options[:tournament_name], options[:champion_data], options[:red_team], options[:blue_team]),
       options
     )
   end
@@ -26,13 +26,13 @@ defmodule Matchbox.Match do
     {:ok, match, @timeout}
   end
 
-  defp initalize_match(tournament_name, champion_data) do
+  defp initalize_match(tournament_name, champion_data, red_team, blue_team) do
     %Match{}
-    |> setup_options(tournament_name, champion_data)
+    |> setup_options(tournament_name, champion_data, red_team, blue_team)
   end
 
-  defp setup_options(match, tournament_name, champion_data) do
-    %Match{match | tournament_name: tournament_name, champion_data: champion_data}
+  defp setup_options(match, tournament_name, champion_data, red_team, blue_team) do
+    %Match{match | tournament_name: tournament_name, champion_data: champion_data, red_name: red_team, blue_name: blue_team}
   end
 
   def state(%Match{state: state}) do

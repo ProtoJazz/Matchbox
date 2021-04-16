@@ -11,9 +11,9 @@ defmodule MatchboxWeb.TournamentLive do
     {:ok, assign(socket, tournament: tournament)}
   end
 
-  def handle_event("start_match", _, socket) do
+  def handle_event("start_match", %{"red_team" => red_team, "blue_team" => blue_team}, socket) do
     match_id = UUID.uuid4()
-    TournamentService.start_match_server(match_id)
+    TournamentService.start_match_server(match_id, red_team, blue_team)
 
     {:noreply,
     push_redirect(
@@ -86,7 +86,27 @@ defmodule MatchboxWeb.TournamentLive do
           <li></li>
           <% end %>
         </ul>
-        <button phx-click="start_match">New match</button>
+        <form phx-submit="start_match">
+
+        <div class="select">
+          <select name="red_team">
+              <option>Red Team</option>
+              <%= for team <- @tournament.teams do %>
+              <option><%= team.name %></option>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="select">
+          <select name="blue_team">
+              <option>Blue Team</option>
+              <%= for team <- @tournament.teams do %>
+              <option><%= team.name %></option>
+              <% end %>
+            </select>
+          </div>
+          <button type="submit">New match</button>
+        </form>
       </div>
     """
   end
