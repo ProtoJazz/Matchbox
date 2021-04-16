@@ -85,7 +85,7 @@ defmodule MatchboxWeb.MatchLive do
               <% selection = Enum.at(@state.red_team_picks, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/29.png"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait">
@@ -100,7 +100,7 @@ defmodule MatchboxWeb.MatchLive do
               <% selection = Enum.at(@state.blue_team_picks, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/29.png"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait">
@@ -115,7 +115,7 @@ defmodule MatchboxWeb.MatchLive do
               <% selection = Enum.at(@state.red_team_bans, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFjrqXeOq76adlGPApEHPTS5lKYTV5IZpmuQ&usqp=CAU"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait banned">
@@ -130,7 +130,7 @@ defmodule MatchboxWeb.MatchLive do
               <% selection = Enum.at(@state.blue_team_bans, index) %>
               <%= if is_nil(selection) do %>
                 <div class="tile no_champ champ_portrait">
-                  <img src="https://i.kym-cdn.com/entries/icons/original/000/036/482/cover5.jpg"/>
+                  <img class="no_champ_cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFjrqXeOq76adlGPApEHPTS5lKYTV5IZpmuQ&usqp=CAU"/>
                 </div>
               <% else %>
                 <div class="tile champ_portrait banned">

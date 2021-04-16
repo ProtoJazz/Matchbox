@@ -99,7 +99,7 @@ body {
 
 .champ_divider {
   display: flex;
-  max-width: 100%;
+  max-width: 10px;
 }
 
 .champ_select_backer {
@@ -131,14 +131,20 @@ body {
   margin-top: 13px;
 }
 
-.navbar {
+.navbar,
+.card_container_backer {
   background-color: rgb(23, 23, 46);
 }
 
-.navbar * {
+.navbar *,
+.card_container_backer * {
   color: white;
 }
 
 .phx-connected {
   padding-top: 20px;
+}
+
+.no_champ_cover {
+  object-fit: fill;
 }
