@@ -11,8 +11,14 @@ defmodule MatchboxWeb.TournamentLive do
     {:ok, assign(socket, tournament: tournament)}
   end
 
-  def handle_event("start_match", %{"red_team" => red_team, "blue_team" => blue_team}, socket) do
+  def handle_event("start_match", %{"red_team" => red_team_id, "blue_team" => blue_team_id}, %{assigns: %{tournament: tournament}} = socket) do
     match_id = UUID.uuid4()
+
+    {blue_parse, _} = Integer.parse(blue_team_id)
+    {red_parse, _} = Integer.parse(red_team_id)
+
+    red_team = Enum.find(tournament.teams, nil, fn team -> team.id == red_parse end)
+    blue_team = Enum.find(tournament.teams, nil, fn team -> team.id == blue_parse end)
     TournamentService.start_match_server(match_id, red_team, blue_team)
 
     {:noreply,
@@ -92,7 +98,7 @@ defmodule MatchboxWeb.TournamentLive do
           <select name="red_team">
               <option>Red Team</option>
               <%= for team <- @tournament.teams do %>
-              <option><%= team.name %></option>
+              <option value="<%= team.id %>"><%= team.name %></option>
               <% end %>
             </select>
           </div>
@@ -101,7 +107,7 @@ defmodule MatchboxWeb.TournamentLive do
           <select name="blue_team">
               <option>Blue Team</option>
               <%= for team <- @tournament.teams do %>
-              <option><%= team.name %></option>
+              <option value="<%= team.id %>"><%= team.name %></option>
               <% end %>
             </select>
           </div>

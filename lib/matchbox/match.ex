@@ -3,8 +3,8 @@ defmodule Matchbox.Match do
   alias Matchbox.Match
 
   defstruct state: %MatchState{},
-            red_name: "Red Team",
-            blue_name: "Blue Team",
+            red_team: %{name: "Red Team", players: []},
+            blue_team: %{name: "Blue Team", players: []},
             tournament_name: "Single Match",
             bans: 5,
             team_size: 5,
@@ -32,7 +32,7 @@ defmodule Matchbox.Match do
   end
 
   defp setup_options(match, tournament_name, champion_data, red_team, blue_team) do
-    %Match{match | tournament_name: tournament_name, champion_data: champion_data, red_name: red_team, blue_name: blue_team}
+    %Match{match | tournament_name: tournament_name, champion_data: champion_data, red_team: red_team, blue_team: blue_team}
   end
 
   def state(%Match{state: state}) do
