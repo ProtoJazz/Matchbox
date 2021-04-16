@@ -11,9 +11,10 @@ defmodule Matchbox.Player do
   end
 
   @doc false
-  def changeset(player, attrs) do
+  def changeset(player, team, attrs) do
     player
     |> cast(attrs, [:summoner_name, :summoner_id])
-    |> validate_required([:summoner_name, :summoner_id])
+    |> put_assoc(:team, team)
+    |> validate_required([:summoner_name])
   end
 end

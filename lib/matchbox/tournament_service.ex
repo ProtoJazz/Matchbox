@@ -1,6 +1,6 @@
 defmodule Matchbox.TournamentService do
   alias Matchbox.Repo
-  alias Matchbox.{Tournament, Team}
+  alias Matchbox.{Tournament, Team, Player}
   import Ecto.Query
   def create_tournament(attrs \\ %{}) do
     %Tournament{}
@@ -15,6 +15,12 @@ defmodule Matchbox.TournamentService do
   def add_team(tournament, team_name) do
     %Team{}
     |> Team.changeset(tournament, %{name: team_name})
+    |> Repo.insert()
+  end
+
+  def add_player(team, summoner_name) do
+    %Player{}
+    |> Player.changeset(team, %{summoner_name: summoner_name})
     |> Repo.insert()
   end
 

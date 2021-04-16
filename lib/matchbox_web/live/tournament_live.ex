@@ -22,6 +22,21 @@ defmodule MatchboxWeb.TournamentLive do
     )}
   end
 
+  def handle_event("add_player_to_team", %{"team_id" => team_id, "summoner_name" => summoner_name}, %{assigns: %{tournament: tournament}} = socket) do
+
+    {parsed_id, _} = Integer.parse(team_id)
+
+    team = Enum.find(tournament.teams, nil, fn team -> team.id == parsed_id end)
+
+    if(!is_nil(team)) do
+      TournamentService.add_player(team, summoner_name)
+      tournament = TournamentService.get_tournament(tournament.id)
+      {:noreply, assign(socket, tournament: tournament)}
+    else
+      {:noreply, socket}
+    end
+  end
+
   def handle_event("new_team", _, %{assigns: %{tournament: tournament}} = socket) do
     tournament_id = tournament.id
     team_name = "Team #{Faker.Food.ingredient} #{Faker.Pokemon.name()}"
@@ -54,6 +69,17 @@ defmodule MatchboxWeb.TournamentLive do
                 <%= for player <- team.players do %>
                   <p><%= player.summoner_name %>
                 <% end %>
+                <form phx-submit="add_player_to_team">
+                <div class="field" >
+                  <label class="label">Add Summoner</label>
+                  <div class="control">
+                    <input type="hidden" value="<%= team.id %>" name="team_id"/>
+                    <input class="input" type="text" placeholder="Summoner Name" name="summoner_name">
+                  </div>
+                  <p class="help">We don't have the technology to update this later. Make sure its right</p>
+                </div>
+                <button type="submit">Add</button>
+                </form>
               </div>
             </div>
           </div>
