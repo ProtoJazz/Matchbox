@@ -14,7 +14,9 @@ defmodule Matchbox.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Matchbox.PubSub},
       # Start the Endpoint (http/https)
-      MatchboxWeb.Endpoint
+      MatchboxWeb.Endpoint,
+      {Registry, keys: :unique, name: Matchbox.MatchRegistry},
+      {DynamicSupervisor, strategy: :one_for_one, name: Matchbox.MatchSupervisor}
       # Start a worker by calling: Matchbox.Worker.start_link(arg)
       # {Matchbox.Worker, arg}
     ]

@@ -17,7 +17,9 @@ defmodule MatchboxWeb.Router do
   scope "/", MatchboxWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", LandingPageLive, :index
+    live "/tournament/:id", TournamentLive, :show
+    live "/match/:id", MatchLive, :show
   end
 
   # Other scopes may use custom stacks.
